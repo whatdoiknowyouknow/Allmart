@@ -12,6 +12,10 @@ public class Customer {
         this.customerScore = customerScore;
     }
 
+    public void addToCustomerScore(final int amount){
+        customerScore += amount;
+    }
+
     public int getCustomerScore() {
         return customerScore;
     }
@@ -20,7 +24,5 @@ public class Customer {
         return name;
     }
 
-    public void addToCustomerScore(final int amount){
-        customerScore += amount;
-    }
+
 }

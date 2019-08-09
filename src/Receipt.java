@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Receipt {
 
-    private ArrayList<Product> boughtProducts;
+    private List<Product> boughtProducts;
     private String customerName;
 
 
@@ -11,35 +12,14 @@ public class Receipt {
         boughtProducts = new ArrayList<>();
     }
 
-
-    public int getProductAmount(final String productName){
-        if (findProduct(productName) == -1){
-            return 0;
-        }
-        return boughtProducts.get(findProduct(productName)).getBoughtAmount();
-
-    }
-
-    public String getCustomerName(){
-        return customerName;
-    }
-
-    public int getTotalAmountOfProducts(){
-        int totalAmount = 0;
+    public void print(){
+        System.out.println("Receipt of " + (customerName.equals("") ? "anonymous customer" : customerName));
+        System.out.println("===============");
         for (int i = 0; i < boughtProducts.size(); i++){
-            totalAmount += boughtProducts.get(i).getBoughtAmount();
+            System.out.println(boughtProducts.get(i).getBoughtAmount() + " ex. " + boughtProducts.get(i).getProductName());
         }
-        return totalAmount;
-    }
-
-    private int findProduct(final String productName){
-        // returns index of the product in the arraylist boughtProducts
-        for (int i = 0; i < boughtProducts.size(); i++){
-            if (boughtProducts.get(i).getProductName().equalsIgnoreCase(productName)){
-                return i;
-            }
-        }
-        return -1;
+        System.out.println("_________________");
+        System.out.println("Total of " + getTotalAmountOfProducts() + " products bought. \n\n");
     }
 
     public void addProduct(final String productName, final int amount){
@@ -55,14 +35,34 @@ public class Receipt {
         }
     }
 
-    public void print(){
-        System.out.println("Receipt of " + (customerName.equals("") ? "anonymous customer" : customerName));
-        System.out.println("===============");
+    private int findProduct(final String productName){
+        // returns index of the product in the arraylist boughtProducts
         for (int i = 0; i < boughtProducts.size(); i++){
-            System.out.println(boughtProducts.get(i).getBoughtAmount() + " ex. " + boughtProducts.get(i).getProductName());
+            if (boughtProducts.get(i).getProductName().equalsIgnoreCase(productName)){
+                return i;
+            }
         }
-        System.out.println("_________________");
-        System.out.println("Total of " + getTotalAmountOfProducts() + " products bought. \n\n");
+        return -1;
+    }
+
+    public int getProductAmount(final String productName){
+        if (findProduct(productName) == -1){
+            return 0;
+        }
+        return boughtProducts.get(findProduct(productName)).getBoughtAmount();
+
+    }
+
+    public int getTotalAmountOfProducts(){
+        int totalAmount = 0;
+        for (int i = 0; i < boughtProducts.size(); i++){
+            totalAmount += boughtProducts.get(i).getBoughtAmount();
+        }
+        return totalAmount;
+    }
+
+    public String getCustomerName(){
+        return customerName;
     }
 
 }

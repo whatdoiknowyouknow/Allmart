@@ -8,6 +8,9 @@ public class Product {
         this.boughtAmount = boughtAmount;
     }
 
+    public void addAmount(final int amount){
+        this.boughtAmount += amount;
+    }
 
     public String getProductName() {
         return productName;
@@ -17,7 +20,5 @@ public class Product {
         return boughtAmount;
     }
 
-    public void addAmount(final int amount){
-        this.boughtAmount += amount;
-    }
+
 }

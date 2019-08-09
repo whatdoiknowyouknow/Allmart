@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Store {
 
@@ -7,10 +8,10 @@ public class Store {
     private static final String[] availableProducts = {"Smartphone X", "Smartphone Y", "cable", "lamp", "glass", "bottle of gin", "speakers", "placemat", "wallet", "vacuum cleaner", "mouse", "java course", "c# course", "book", "booklet"};
     private static final String[] clients = {"Jane Janukova", "Tom", "Geert", "Hans", "Fien", "Sophie", "Ma", "Pa", ""}; // 9
 
-    private ArrayList<Receipt> receipts;
     private final String MANAGERSWIFE = "Jane Janukova";
     private final String SPECIALPRODUCT = "Smartphone X";
-    private ArrayList<Customer> customerScores;
+    private List<Receipt> receipts;
+    private List<Customer> customerScores;
 
 
     public Store() {
@@ -29,6 +30,30 @@ public class Store {
         for (int i = 0; i < customerScores.size(); i++) {
             System.out.printf(format, customerScores.get(i).getName(), customerScores.get(i).getCustomerScore());
         }
+    }
+
+    private int computeCustomerScore(final Receipt receipt) {
+        int customerScore = 0;
+        if (!receipt.getCustomerName().equals("")) {
+
+            // extra points for managers wife
+            if (receipt.getCustomerName().equalsIgnoreCase(MANAGERSWIFE)) {
+                customerScore += 10;
+            }
+
+            // extra points depending on number of bought products
+            if (receipt.getTotalAmountOfProducts() > 30) {
+                customerScore += 9;
+            } else if (receipt.getTotalAmountOfProducts() > 20) {
+                customerScore += 7;
+            } else if (receipt.getTotalAmountOfProducts() > 10) {
+                customerScore += 5;
+            }
+
+            // extra points per special product (smartphone X)
+            customerScore += receipt.getProductAmount(SPECIALPRODUCT) * 5;
+        }
+        return customerScore;
     }
 
     public void closeReceipt(final Receipt receipt) {
@@ -59,29 +84,7 @@ public class Store {
         return -1;
     }
 
-    private int computeCustomerScore(final Receipt receipt) {
-        int customerScore = 0;
-        if (!receipt.getCustomerName().equals("")) {
 
-            // extra points for managers wife
-            if (receipt.getCustomerName().equalsIgnoreCase(MANAGERSWIFE)) {
-                customerScore += 10;
-            }
-
-            // extra points depending on number of bought products
-            if (receipt.getTotalAmountOfProducts() > 30) {
-                customerScore += 9;
-            } else if (receipt.getTotalAmountOfProducts() > 20) {
-                customerScore += 7;
-            } else if (receipt.getTotalAmountOfProducts() > 10) {
-                customerScore += 5;
-            }
-
-            // extra points per special product (smartphone X)
-            customerScore += receipt.getProductAmount(SPECIALPRODUCT) * 5;
-        }
-        return customerScore;
-    }
 
     public static Receipt generateRandomReceipt() {
 
